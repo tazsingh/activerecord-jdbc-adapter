@@ -3,7 +3,7 @@ module ArJdbc
     module Column
       # based on active_record/connection_adapters/postgresql/cast.rb
       module Cast
-        
+
         def string_to_time(string)
           return string unless String === string
 
@@ -94,6 +94,18 @@ module ArJdbc
           end
         end
 
+        def string_to_point
+          if string[0] == '(' && string[-1] == ')'
+            string = string[1...-1]
+          end
+
+          string.split(',').map {|v| Float(v) }
+        end
+
+        def point_to_string(point)
+          "(#{point[0]},#{point[1]})"
+        end
+
         # NOTE: not used - we get "parsed" array value from connection
         #def string_to_array(string, oid)
         #  parse_pg_array(string).map { |val| oid.type_cast val }
@@ -127,7 +139,7 @@ module ArJdbc
               "\"#{value.gsub(/"/,"\\\"")}\""
             end
           end
-          
+
       end
     end
   end
