@@ -94,7 +94,7 @@ module ArJdbc
           end
         end
 
-        def string_to_point
+        def string_to_point(string)
           if string[0] == '(' && string[-1] == ')'
             string = string[1...-1]
           end
